@@ -4,10 +4,29 @@
       <h4>
         Input no. of Ticket
       </h4>
-      <input [(ngModel)]="ticketsToReserve">
-      <button type="submit" (click)="bookTikcet()"> Book</button>
+      <form class="example-form" [formGroup]="ticketForm" (submit)="bookTikcet()">
+        <mat-form-field class="example-full-width">
+          <mat-label> Enter Number of Tickets</mat-label>
+          <input matInput id="count" formControlName="count" required>
+          <mat-error *ngIf="ticketForm.hasError('max') && !ticketForm.hasError('required')">
+            Type the valid number
+          </mat-error>
+          <mat-error *ngIf="ticketForm.hasError('required')">
+            Number is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <button type="submit" mat-raised-button  [disabled]="!ticketForm.valid"> Book Tickets</button>
+      </form>
+     <!--  <Form [formGroup]="ticketForm" (submit)="bookTikcet()">
+        <input id="count" formControlName="count" required>
+        <div *ngIf="count.errors.max">
+          Type the valid number
+        </div>
+        <button type="submit"  [disabled]="!ticketForm.valid"> Book Tickets</button>
+      </Form> -->
+      
     </div>
-    <div>
+    <div class="mt-3">
       <h4>
         Booked Tickets are - 
       </h4>
@@ -16,16 +35,18 @@
       </div>
     </div>
   </div>
-  <div>
-    <div class="d-flex justify-content-between">
+  <div class="booking-chart">
+    <div class="d-flex justify-content-between pl-4 pr-2">
       <div *ngFor="let row of [0,1,2,3,4,5,6]">
         {{row+1}}
       </div>
 
     </div>
     
-    <div *ngFor="let row of ticketArrray, let i=index"  >
-      {{i+1}}
+    <div *ngFor="let row of ticketArrray, let i=index" class="d-flex " >
+      <div class="row_no">
+        {{i+1}}
+      </div>
       <span *ngFor="let j of row">
           <span *ngIf="j == false" class="material-icons">
               check_box_outline_blank

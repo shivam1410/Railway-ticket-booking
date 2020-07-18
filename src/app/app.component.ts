@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { variable } from '@angular/compiler/src/output/output_ast';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +16,10 @@ export class AppComponent {
   bookedTickets: any[];
   ticketsToReserve: number;
   
+  ticketForm = new FormGroup({
+    count: new FormControl(0,[Validators.required, Validators.max(7),Validators.min(1)]),
+  })
+
   constructor(){
     this.ticketArrray = [];
     for(var i: number = 0; i < 11; i++) {
@@ -57,7 +63,9 @@ export class AppComponent {
     return index;
   }
   bookTikcet(){
+    console.log(this.ticketForm.value)
     console.log(this.ticketsToReserve);
+    this.ticketsToReserve = this.ticketForm.value.count;
     let k= this.ticketsToReserve;
     let indices: any[][]=[];
     let arr=this.emptySeatInRow;
