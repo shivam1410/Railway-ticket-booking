@@ -31,21 +31,21 @@
         Booked Tickets are - 
       </h4>
       <div *ngFor="let i of bookedTickets">        
-        {{i}}
+        {{i[0] | numIntoAlpha}}-{{i[1]}}
       </div>
     </div>
   </div>
   <div class="booking-chart">
     <div class="d-flex justify-content-between pl-4 pr-2">
       <div *ngFor="let row of [0,1,2,3,4,5,6]">
-        {{row+1}}
+        {{row}}
       </div>
 
     </div>
     
     <div *ngFor="let row of ticketArrray, let i=index" class="d-flex " >
       <div class="row_no">
-        {{i+1}}
+        {{i| numIntoAlpha}}
       </div>
       <span *ngFor="let j of row">
           <span *ngIf="j == false" class="material-icons">
