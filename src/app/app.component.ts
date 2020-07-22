@@ -50,21 +50,42 @@ export class AppComponent {
       this.ticketArrray[i][j] = true;
     })
   }
-  find_min(indices: any[][]){
+  find_min(indices: any[][],arr: any[]){
     var diff=50;
     var min=100;
     var index=0;
+    let current_empty_seats=0;
+    var min_empty_seats=100;
+    console.log(arr)
     for (var i=0; i<indices.length; i++ ){
-      diff=indices[i][1]-indices[i][0]
-      if(diff<min){
-        min=diff; index=i;
+      diff=indices[i][1]-indices[i][0];
+      let a= indices[i][1];
+      let b =indices[i][0];
+      current_empty_seats=0;
+      console.log(indices[i][1], +indices[i][0])
+      while(a<b){
+        current_empty_seats += arr[a];
+        a++;
       }
+      if(a==b)
+        current_empty_seats +=arr[a];
+
+      if(diff<min || current_empty_seats < min_empty_seats){
+
+          min=diff; 
+          index=i;
+          min_empty_seats = current_empty_seats;
+      }
+      console.log(min_empty_seats);
     }
+    console.log(index)
     return index;
   }
+
+
   bookTikcet(){
-    console.log(this.ticketForm.value)
-    console.log(this.ticketsToReserve);
+    // console.log(this.ticketForm.value)
+    // console.log(this.ticketsToReserve);
     this.ticketsToReserve = this.ticketForm.value.count;
     let k= this.ticketsToReserve;
     let indices: any[][]=[];
@@ -78,31 +99,31 @@ export class AppComponent {
       while(k>sum && j<arr.length){
         sum+=arr[j];
         j++;
-        console.log(j)
+        // console.log(j)
         if(j==12){
-          console.log(sum)
+          // console.log(sum)
 
         }
       }
       if(sum >=k){
-        console.log(">="+sum,+ k)
+        // console.log(">="+sum,+ k)
         indices.push([i,j-1]);
       }
       else{
-        console.log("<"+sum,+ k)
+        // console.log("<"+sum,+ k)
 
       }
     }
-    console.log(indices)
+    // console.log(indices)
 
-    var index= this.find_min(indices);
-    console.log(index)
+    var index= this.find_min(indices,arr);
+    // console.log(index)
     var indexes:any[][] = [];
     i=indices[index][0];
     j=indices[index][1];
 
     sum = 0;
-    console.log(i, j);
+    // console.log(i, j);
     while(i<j){
       sum+=arr[i];
       if(i<11){
@@ -132,7 +153,7 @@ export class AppComponent {
     arr[j]=arr[j]-(k-sum);
 
     this.emptySeatInRow = arr;
-    console.log(indexes);
+    // console.log(indexes);
     this.markTicketAsBook(indexes)
     this.bookedTickets = indexes;
   }
